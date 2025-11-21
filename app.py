@@ -147,7 +147,7 @@ def resourceLocations():
      
         resourceLocations = query(dbConnection, query1).fetchall()
         print(resourceLocations)
-        headers = ["Resource Name", "Location Name", "Delete"]
+        headers = ["Resource Name", "Location Name", "Edit", "Delete"]
 
         resourceQuery = "SELECT resourceID as id, resourceName AS name FROM Resources;"
         resources = query(dbConnection, resourceQuery).fetchall()
