@@ -1,0 +1,24 @@
+<!-- Code on this page adapted from main.j2 in the cs340 materials here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 -->
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CS340 - Neighborhood Lending Library</title>
+    <link href='static/style.css' rel='stylesheet' />
+</head>
+<body>
+    <nav>
+      Navigation
+        <a href="/">Home</a>
+        <a href="/users">Users</a>
+        <a href="/resources">Resources</a>
+        <a href="/loans">Loans</a>
+        <a href="/locations">Locations</a>
+        <a href="/resourceLocations">ResourceLocations</a>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+  </body>
+</html>

@@ -1,0 +1,15 @@
+<!-- Code on this page adapted from home.j2 in the cs340 materials here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 -->
+
+{% extends "main.j2" %}
+{% block content %}
+
+    <h1>Welcome to the Neighborhood Lending Library!</h1>
+
+    <h2>Created by Julie Anzaroot and Margaret Barnes for CS 340.</h2>
+
+    <!--  Code for the button in this function is only minorly updated from AI provided code when googling "set up button in flask app", 11/19/2025: https://www.google.com/search?q=set+up+button+in+flask+app&sca_esv=ce0ce1db3a943257&rlz=1C5CHFA_enUS1131US1133&sxsrf=AE3TifM83rWTMHO4_rDFma6zLKXezvrNow%3A1763609538747&ei=woseabGrLdbX0PEPyNTN-Ak&ved=0ahUKEwixlNHA5f-QAxXWKzQIHUhqE58Q4dUDCBE&uact=5&oq=set+up+button+in+flask+app&gs_lp=Egxnd3Mtd2l6LXNlcnAiGnNldCB1cCBidXR0b24gaW4gZmxhc2sgYXBwMgcQIRigARgKMgcQIRigARgKMgcQIRigARgKMgcQIRigARgKMgcQIRigARgKSLYrUOgHWIcpcAN4AZABAJgBtAGgAZkcqgEEMC4yNrgBA8gBAPgBAZgCHaACoR3CAgoQABiwAxjWBBhHwgILEAAYgAQYkQIYigXCAgoQABiABBhDGIoFwgIOEAAYgAQYsQMYgwEYigXCAg4QLhiABBixAxiDARiKBcICFhAuGIAEGLEDGNEDGEMYgwEYxwEYigXCAgsQLhiABBjRAxjHAcICERAuGIAEGLEDGNEDGIMBGMcBwgIIEC4YgAQYsQPCAggQABiABBixA8ICCxAuGIAEGLEDGIMBwgIFEAAYgATCAgsQABiABBixAxiDAcICBxAAGIAEGA3CAgYQABgNGB7CAgYQABgWGB7CAggQABgWGAoYHsICCBAAGKIEGIkFwgIIEAAYgAQYogTCAgUQABjvBcICBRAhGJ8FwgIFECEYqwKYAwCIBgGQBgiSBwQzLjI2oAfi1AGyBwQwLjI2uAeHHcIHCTAuMTguMTAuMcgHXA&sclient=gws-wiz-serp -->
+    <form method="POST">
+        <button type="submit" name="reset_button" value="click_action">Press here to reset the database.</button>
+    </form>
+
+{% endblock %}

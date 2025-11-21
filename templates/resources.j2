@@ -1,0 +1,45 @@
+<!-- Code on this page adapted from bsg-people.j2 in the cs340 materials here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 -->
+
+{% extends "main.j2" %}
+{% block content %}
+
+<h1>Resources</h1>
+
+<h2> {{message}} </h2>
+
+{# READ table #}
+<table>
+    <thead>
+        {# For the table header row, we print the DB attribute names #}
+        <tr>
+            {% for header in headers %}
+            <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for resource in resources %}
+        <tr>
+            <td>{{ resource.resourceName }}</td>
+            <td>{{ resource.resourceDescription }}</td>
+            <td>{{ resource.firstName }}</td>
+            <td>{{ resource.lastName }}</td>
+
+            {# DELETE form #}
+            <form id="delete_resource_form" action="/delete" method="POST">
+                <input type="hidden" name="table" value="resources">
+                <input type="hidden" name="id" value="{{ resource.resourceID }}">
+                <input type="hidden" name="name" value="{{ resource.firstName }} {{ resource.lastName }}">
+                <td>
+                    <button type="submit">
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
