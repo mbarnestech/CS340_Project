@@ -53,7 +53,7 @@ def users():
         # Create and execute our query
         query1 = "SELECT * FROM Users;"
         users = query(dbConnection, query1).fetchall()
-        headers = ["First Name", "Last Name", "Email", "Phone", "Action"]
+        headers = ["First Name", "Last Name", "Email", "Phone", "Delete"]
 
         # Render the users.j2 file, and also send the renderer an object containing the users information
         return render_template(
@@ -83,9 +83,9 @@ def loans():
      
         loans = query(dbConnection, query1).fetchall()
         print(loans)
-        headers = ["Start Date", "Due Date", "Resource Name", "Lender First Name", "Lender Last Name", "Action"]
+        headers = ["Start Date", "Due Date", "Resource Name", "Lender First Name", "Lender Last Name", "Delete"]
 
-        # Render the users.j2 file, and also send the renderer an object containing the users information
+        # Render the loans.j2 file, and also send the renderer an object containing the loan's information
         return render_template(
             "loans.j2", headers=headers, loans=loans, message=message
         )
@@ -107,18 +107,21 @@ def resources():
     
     dbConnection = connectDB(host, user, password, db)  # Open our database connection
 
-    message = "On this page you can view and delete records in the Loans table."
+    message = "On this page you can view and delete records in the Resources table."
     try:
         # Create and execute our query
         query1 = "SELECT r.resourceID, r.resourceName, r.resourceDescription, u.firstName, u.lastName FROM Resources r JOIN Users u on r.userID = u.userID ;"
      
         resources = query(dbConnection, query1).fetchall()
         print(resources)
-        headers = ["Resource Name", "Resource Description", "Owner First Name", "Owner Last Name", "Action"]
+        headers = ["Resource Name", "Resource Description", "Owner First Name", "Owner Last Name", "Edit", "Delete"]
 
-        # Render the users.j2 file, and also send the renderer an object containing the users information
+        userQuery = "SELECT userID, CONCAT(firstName, ' ', lastName) AS name FROM Users;"
+        users = query(dbConnection, userQuery).fetchall()
+
+        # Render the resources.j2 file, and also send the renderer an object containing the resource's information
         return render_template(
-            "loans.j2", headers=headers, resources=resources, message=message
+            "resources.j2", headers=headers, resources=resources, message=message, users=users
         )
     
     except Exception as e:
@@ -131,6 +134,73 @@ def resources():
         # Close the DB connection, if it exists
         if "dbConnection" in locals() and dbConnection:
             dbConnection.close()
+
+@app.route("/resourceLocations", methods=['GET'])
+def resourceLocations():
+    
+    dbConnection = connectDB(host, user, password, db)  # Open our database connection
+
+    message = "On this page you can view and delete records in the ResourceLocations table."
+    try:
+        # Create and execute our query
+        query1 = "SELECT rl.resourceLocationsID, r.resourceName, l.locationName FROM ResourceLocations rl JOIN Resources r on rl.resourceID = r.resourceID JOIN Locations l on rl.locationID = l.locationID;"
+     
+        resourceLocations = query(dbConnection, query1).fetchall()
+        print(resourceLocations)
+        headers = ["Resource Name", "Location Name", "Delete"]
+
+        resourceQuery = "SELECT resourceID as id, resourceName AS name FROM Resources;"
+        resources = query(dbConnection, resourceQuery).fetchall()
+
+        locationQuery = "SELECT locationID as id, locationName AS name FROM Locations;"
+        locations = query(dbConnection, locationQuery).fetchall()
+
+        # Render the resourceLocations.j2 file, and also send the renderer an object containing the resourceLocation's information
+        return render_template(
+            "resourceLocations.j2", headers=headers, resourceLocations=resourceLocations, message=message, resources = resources, locations = locations
+        )
+    
+    except Exception as e:
+        print(f"Error executing queries: {e}")
+        return (
+            "An error occurred while executing the database queries.",
+            500,
+        )
+    finally:
+        # Close the DB connection, if it exists
+        if "dbConnection" in locals() and dbConnection:
+            dbConnection.close()
+
+@app.route("/locations", methods=['GET'])
+def locations():
+    
+    dbConnection = connectDB(host, user, password, db)  # Open our database connection
+
+    message = "On this page you can view and delete records in the Locations table."
+    try:
+        # Create and execute our query
+        query1 = "SELECT * FROM Locations;"
+     
+        locations = query(dbConnection, query1).fetchall()
+        print(locations)
+        headers = ["Location Name", "Location Description", "Delete"]
+
+        # Render the locations.j2 file, and also send the renderer an object containing the location's information
+        return render_template(
+            "locations.j2", headers=headers, locations=locations, message=message
+        )
+    
+    except Exception as e:
+        print(f"Error executing queries: {e}")
+        return (
+            "An error occurred while executing the database queries.",
+            500,
+        )
+    finally:
+        # Close the DB connection, if it exists
+        if "dbConnection" in locals() and dbConnection:
+            dbConnection.close()
+
 
 @app.route("/delete", methods=['POST'])
 def delete():

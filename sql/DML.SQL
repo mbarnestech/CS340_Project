@@ -98,10 +98,12 @@ FROM Locations;
 
 -- Select all ResourceLocation
 SELECT
-   ResourceLocationsID,
-   (SELECT resourceName FROM Resources WHERE resourceID = @resourceID),
-   (SELECT locationName FROM Locations WHERE locationID = @locationID)
-FROM ResourceLocations;
+   rl.ResourceLocationsID,
+   r.resourceName,
+   l.locationName
+FROM ResourceLocations rl
+JOIN Resources r on rl.resourceID = r.resourceID
+JOIN Locations l on rl.locationID = l.locationID;
 
 
 -- Insert a ResourceLocation

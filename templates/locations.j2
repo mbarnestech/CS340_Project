@@ -1,32 +1,34 @@
 <!-- Code on this page adapted from bsg-people.j2 in the cs340 materials here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 -->
 
-<h1>Locations</h1>
+{% extends "main.j2" %}
+{% block content %}
+
+<h1> Locations</h1>
+
+<h2> {{message}} </h2>
 
 {# READ table #}
 <table>
     <thead>
         {# For the table header row, we print the DB attribute names #}
         <tr>
-            {% for key in locations[0].keys() %}
-            <th>{{ key }}</th>
+            {% for header in headers %}
+            <th>{{ header }}</th>
             {% endfor %}
-            <th></th>
         </tr>
     </thead>
 
     <tbody>
         {% for location in locations %}
         <tr>
-            <td>{{ location.id }}</td>
-            <td>{{ location.fname }}</td>
-            <td>{{ location.lname }}</td>
-            <td>{{ location.homeworld | default('', true) }}</td>
-            <td>{{ location.age | default('', true) }}</td>
+            <td>{{ location.locationName }}</td>
+            <td>{{ location.locationDescription }}</td>
 
             {# DELETE form #}
-            <form id="delete_location_form">
-                <input type="hidden" name="delete_location_id" value="{{ location.id }}">
-                <input type="hidden" name="delete_location_name" value="{{ location.fname }} {{ location.lname }}">
+            <form id="delete_location_form" action="/delete" method="POST">
+                <input type="hidden" name="table" value="locations">
+                <input type="hidden" name="id" value="{{ location.locationID }}">
+                <input type="hidden" name="name" value="{{ location.locationName }}">
                 <td>
                     <button type="submit">
                         Delete

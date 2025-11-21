@@ -3,7 +3,7 @@
 {% extends "main.j2" %}
 {% block content %}
 
-<h1>Users</h1>
+<h1> Resource Locations</h1>
 
 <h2> {{message}} </h2>
 
@@ -19,19 +19,27 @@
     </thead>
 
     <tbody>
-        {# For each row, print the id, fname, lname, homeworld and age #}
-        {% for user in users %}
+        {% for resourceLocation in resourceLocations %}
         <tr>
-            <td>{{ user.firstName }}</td>
-            <td>{{ user.lastName }}</td>
-            <td>{{ user.email}}</td>
-            <td>{{ user.phone}}</td>
+            <td>{{ resourceLocation.resourceName }}</td>
+            <td>{{ resourceLocation.locationName }}</td>
+
+            {# EDIT form #}
+            <form id="edit_resourceLocation_form" action="/edit" method="POST">
+                <input type="hidden" name="table" value="resourceLocations">
+                <input type="hidden" name="id" value="{{ resourceLocation.resourceLocationsID }}">
+                <td>
+                    <button type="submit">
+                        Edit
+                    </button>
+                </td>
+            </form>
 
             {# DELETE form #}
-            <form id="delete_user_form" action="/delete" method="POST">
-                <input type="hidden" name="table" value="users">
-                <input type="hidden" name="id" value="{{ user.userID }}">
-                <input type="hidden" name="name" value="{{ user.firstName }} {{ user.lastName }}">
+            <form id="delete_resourceLocation_form" action="/delete" method="POST">
+                <input type="hidden" name="table" value="resourceLocations">
+                <input type="hidden" name="id" value="{{ resourceLocation.resourceLocationsID }}">
+                <input type="hidden" name="name" value="{{ resourceLocation.resourceName }} {{ resourceLocation.locationName }}">
                 <td>
                     <button type="submit">
                         Delete
@@ -42,5 +50,45 @@
         {% endfor %}
     </tbody>
 </table>
+
+{# UPDATE form #}
+<h2>Update a Resource Location</h2>
+<form class="cuForm" id="update_resourceLocation_form">
+    <label for="update_resourceLocation_id">Resource Location to Update: </label>
+    <select name="update_resourceLocation_id" id="update_resourceLocation_id" required>
+        <option value="" disabled selected>Select a resource location to edit</option>
+        {% for resourceLocation in resourceLocations %}
+        <option value="{{resourceLocation.resourceLocationsID}}" required>
+            {{resourceLocation.resourceName}}
+            -
+            {{resourceLocation.locationName}}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="update_resource">New Resource: </label>
+    <select name="update_resource" id="update_resource" required>
+        <option value="NULL" selected>Select a Resource</option>
+        <option value="NULL">&lt; None &gt;</option>
+        {% for resource in resources %}
+        <option value="{{resource.id}}" required>
+            {{resource.name}}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="update_location">New location: </label>
+    <select name="update_location" id="update_location" required>
+        <option value="NULL" selected>Select a location</option>
+        <option value="NULL">&lt; None &gt;</option>
+        {% for location in locations %}
+        <option value="{{location.id}}" required>
+            {{location.name}}
+        </option>
+        {% endfor %}
+    </select>
+
+    <input type="submit">
+</form>
 
 {% endblock %}

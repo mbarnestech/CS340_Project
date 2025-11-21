@@ -26,6 +26,17 @@
             <td>{{ resource.firstName }}</td>
             <td>{{ resource.lastName }}</td>
 
+            {# EDIT form #}
+            <form id="edit_resource_form" action="/edit" method="POST">
+                <input type="hidden" name="table" value="resources">
+                <input type="hidden" name="id" value="{{ resource.resourceID }}">
+                <td>
+                    <button type="submit">
+                        Edit
+                    </button>
+                </td>
+            </form>
+
             {# DELETE form #}
             <form id="delete_resource_form" action="/delete" method="POST">
                 <input type="hidden" name="table" value="resources">
@@ -42,4 +53,35 @@
     </tbody>
 </table>
 
+{# UPDATE form #}
+<h2>Update a Resource</h2>
+<form class="cuForm" id="update_resource_form">
+    <label for="update_resource_id">Resource to Update: </label>
+    <select name="update_resource_id" id="update_resource_id" required>
+        <option value="" disabled selected>Select a resource</option>
+        {% for resource in resources %}
+        <option value="{{resource.resourceID}}" required>
+            {{resource.resourceName}}
+            -
+            {{resource.resourceDescription}}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="update_owner">New Owner: </label>
+    <select name="update_owner" id="update_owner" required>
+        <option value="NULL" selected>Select a User</option>
+        <option value="NULL">&lt; None &gt;</option>
+        {% for user in users %}
+        <option value="{{user.userID}}" required>
+            {{user.name}}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="update_resource_description">New Description: </label>
+    <input type="text" name="update_resource_description" id="update_resource_description">
+
+    <input type="submit">
+</form>
 {% endblock %}
