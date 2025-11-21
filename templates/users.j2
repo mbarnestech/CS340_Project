@@ -1,0 +1,46 @@
+<!-- Code on this page adapted from bsg-people.j2 in the cs340 materials here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 -->
+
+{% extends "main.j2" %}
+{% block content %}
+
+<h1>Users</h1>
+
+<h2> {{message}} </h2>
+
+{# READ table #}
+<table>
+    <thead>
+        {# For the table header row, we print the DB attribute names #}
+        <tr>
+            {% for header in headers %}
+            <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+
+    <tbody>
+        {# For each row, print the id, fname, lname, homeworld and age #}
+        {% for user in users %}
+        <tr>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.email}}</td>
+            <td>{{ user.phone}}</td>
+
+            {# DELETE form #}
+            <form id="delete_user_form" action="/delete" method="POST">
+                <input type="hidden" name="table" value="users">
+                <input type="hidden" name="id" value="{{ user.userID }}">
+                <input type="hidden" name="name" value="{{ user.firstName }} {{ user.lastName }}">
+                <td>
+                    <button type="submit">
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

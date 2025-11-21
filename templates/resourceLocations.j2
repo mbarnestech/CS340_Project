@@ -1,0 +1,94 @@
+<!-- Code on this page adapted from bsg-people.j2 in the cs340 materials here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 -->
+
+{% extends "main.j2" %}
+{% block content %}
+
+<h1> Resource Locations</h1>
+
+<h2> {{message}} </h2>
+
+{# READ table #}
+<table>
+    <thead>
+        {# For the table header row, we print the DB attribute names #}
+        <tr>
+            {% for header in headers %}
+            <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for resourceLocation in resourceLocations %}
+        <tr>
+            <td>{{ resourceLocation.resourceName }}</td>
+            <td>{{ resourceLocation.locationName }}</td>
+
+            {# EDIT form #}
+            <form id="edit_resourceLocation_form" action="/edit" method="POST">
+                <input type="hidden" name="table" value="resourceLocations">
+                <input type="hidden" name="id" value="{{ resourceLocation.resourceLocationsID }}">
+                <td>
+                    <button type="submit">
+                        Edit
+                    </button>
+                </td>
+            </form>
+
+            {# DELETE form #}
+            <form id="delete_resourceLocation_form" action="/delete" method="POST">
+                <input type="hidden" name="table" value="resourceLocations">
+                <input type="hidden" name="id" value="{{ resourceLocation.resourceLocationsID }}">
+                <input type="hidden" name="name" value="{{ resourceLocation.resourceName }} {{ resourceLocation.locationName }}">
+                <td>
+                    <button type="submit">
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{# UPDATE form #}
+<h2>Update a Resource Location</h2>
+<form class="cuForm" id="update_resourceLocation_form">
+    <label for="update_resourceLocation_id">Resource Location to Update: </label>
+    <select name="update_resourceLocation_id" id="update_resourceLocation_id" required>
+        <option value="" disabled selected>Select a resource location to edit</option>
+        {% for resourceLocation in resourceLocations %}
+        <option value="{{resourceLocation.resourceLocationsID}}" required>
+            {{resourceLocation.resourceName}}
+            -
+            {{resourceLocation.locationName}}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="update_resource">New Resource: </label>
+    <select name="update_resource" id="update_resource" required>
+        <option value="NULL" selected>Select a Resource</option>
+        <option value="NULL">&lt; None &gt;</option>
+        {% for resource in resources %}
+        <option value="{{resource.id}}" required>
+            {{resource.name}}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="update_location">New location: </label>
+    <select name="update_location" id="update_location" required>
+        <option value="NULL" selected>Select a location</option>
+        <option value="NULL">&lt; None &gt;</option>
+        {% for location in locations %}
+        <option value="{{location.id}}" required>
+            {{location.name}}
+        </option>
+        {% endfor %}
+    </select>
+
+    <input type="submit">
+</form>
+
+{% endblock %}
